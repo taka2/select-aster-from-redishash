@@ -17,7 +17,7 @@ public class ResultPanel extends JPanel {
 
 	private DefaultTableModel tableModel;
 
-	public ResultPanel(MainFrame mainFrame) {
+	public ResultPanel(MyTabPanel tabPanel) {
 		this.tableModel = new DefaultTableModel();
 		JTable jTable = new JTable(tableModel);
 

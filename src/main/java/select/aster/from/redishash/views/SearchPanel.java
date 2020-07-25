@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 public class SearchPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public SearchPanel(MainFrame mainFrame) {
+	public SearchPanel(MyTabPanel tabPanel) {
 		JLabel labelQuery = new JLabel("query:");
 		labelQuery.setToolTipText("from [hashkey] where field1=value1");
 		JTextField textQuery = new JTextField(50);
@@ -19,7 +19,7 @@ public class SearchPanel extends JPanel {
 		buttonQuery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.searchButtonClicked(textQuery.getText());
+				tabPanel.searchButtonClicked(textQuery.getText());
 			}
 		});
 		

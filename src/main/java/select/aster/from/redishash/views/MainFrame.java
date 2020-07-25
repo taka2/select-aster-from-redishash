@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ import javax.swing.JOptionPane;
 import select.aster.from.redishash.exception.ApplicationException;
 import select.aster.from.redishash.model.ApplicationConfig;
 import select.aster.from.redishash.model.TabConfig;
+import select.aster.from.redishash.redis.model.RedisHashData;
 import select.aster.from.redishash.redis.service.RedisService;
 import select.aster.from.redishash.util.PropertyUtil;
 
@@ -127,6 +131,28 @@ public class MainFrame extends JFrame {
 				mainFrame.refreshTabs();
 			}
 		});
+		JMenuItem menuItemFileExportCsv = new JMenuItem("export-csv");
+		menuItemFileExportCsv.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MyTabPanel tabPanel = tabbedPane.getTabPanels().get(tabbedPane.getSelectedIndex());
+				String tabName = tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+				List<RedisHashData> redisHashDataList = tabPanel.getResultPanel().getRedishashDataList();
+				
+				if(redisHashDataList.size() == 0) {
+					throw new ApplicationException("No data.");
+				}
+
+				try (PrintWriter pw = new PrintWriter(new FileWriter("export_" + tabName + ".csv"))) {
+					pw.println(redisHashDataList.get(0).toHeaderCsvString());
+					for(RedisHashData redisHashData : redisHashDataList) {
+						pw.println(redisHashData.toCsvString());
+					}
+				} catch(IOException ex) {
+					throw new ApplicationException("Cannot export file." + ex.getMessage());
+				}
+			}
+		});
 		JMenuItem menuItemFileExit = new JMenuItem("exit");
 		menuItemFileExit.addActionListener(new ActionListener() {
 			@Override
@@ -138,6 +164,7 @@ public class MainFrame extends JFrame {
 		menuBar.add(menuFile);
 		menuFile.add(menuItemFileSave);
 		menuFile.add(menuItemFileLoad);
+		menuFile.add(menuItemFileExportCsv);
 		menuFile.add(menuItemFileExit);
 		
 		return menuBar;

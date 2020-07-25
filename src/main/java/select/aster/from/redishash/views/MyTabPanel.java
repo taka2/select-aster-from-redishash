@@ -34,6 +34,10 @@ public class MyTabPanel extends JPanel {
 		resultPanel.updateTableData(redishashDataList);
 	}
 	
+	ResultPanel getResultPanel() {
+		return this.resultPanel;
+	}
+	
 	String getQuery() {
 		return this.searchPanel.getQuery();
 	}

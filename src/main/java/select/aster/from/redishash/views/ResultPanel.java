@@ -1,6 +1,7 @@
 package select.aster.from.redishash.views;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -16,8 +17,12 @@ public class ResultPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private DefaultTableModel tableModel;
+	
+	List<RedisHashData> redishashDataList;
 
 	public ResultPanel(MyTabPanel tabPanel) {
+		redishashDataList = new ArrayList<>();
+
 		this.tableModel = new DefaultTableModel();
 		JTable jTable = new JTable(tableModel);
 		jTable.setAutoCreateRowSorter(true);
@@ -27,6 +32,8 @@ public class ResultPanel extends JPanel {
 	}
 
 	public void updateTableData(List<RedisHashData> redishashDataList) {
+		this.redishashDataList = redishashDataList;
+
 		Vector<Vector<String>> dataVector = new Vector<>();
 		Vector<String> columnIdentifiers = new Vector<>();
 
@@ -44,5 +51,9 @@ public class ResultPanel extends JPanel {
 		}
 
 		tableModel.setDataVector(dataVector, columnIdentifiers);
+	}
+	
+	List<RedisHashData> getRedishashDataList() {
+		return this.redishashDataList;
 	}
 }

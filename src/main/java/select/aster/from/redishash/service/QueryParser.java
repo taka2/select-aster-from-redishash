@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import select.aster.from.redishash.exception.ApplicationException;
+
 public class QueryParser {
 	String regexp1 = "from (\\p{Alpha}+)";
 	String regexp2 = "from (\\p{Alpha}+) where (\\p{Alnum}+)=(\\p{Graph}+)";
@@ -33,6 +35,6 @@ public class QueryParser {
 			}
 		}
 		
-		return null;
+		throw new ApplicationException("Query parse error. query = " + query);
 	}
 }

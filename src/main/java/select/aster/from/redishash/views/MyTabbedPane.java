@@ -14,7 +14,7 @@ public class MyTabbedPane extends JTabbedPane {
 		
 		this.mainFrame = mainFrame;
 
-		// TODO とりあえず1つタブ追加。あとでファイルから復元するようにする。
+		// TODO Add a tab
 		MyTabPanel tabPanel = new MyTabPanel(mainFrame);
 		this.addTab("tab1", tabPanel);
 		

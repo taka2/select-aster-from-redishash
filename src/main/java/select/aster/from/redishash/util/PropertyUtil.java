@@ -14,7 +14,7 @@ public class PropertyUtil {
 			this.properties = new Properties();
 			properties.load(PropertyUtil.class.getResourceAsStream(PROPERTY_FILE_NAME));
 		} catch(Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Cannot read property file. " + PROPERTY_FILE_NAME);
 		}
 	}
 	

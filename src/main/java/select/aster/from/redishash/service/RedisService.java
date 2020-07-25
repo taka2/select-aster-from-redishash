@@ -30,17 +30,17 @@ public class RedisService {
 
 		List<RedisHashData> resultList = new ArrayList<>();
 
-		// Hash名+*で探す
+		// Search redis keys by "hashname+*"
 		List<String> keys = syncCommands.keys(queryData.getHashKey() + "*");
 		for(String key : keys) {
-			// Hashのみを抽出
+			// Extract hash only
 			String type = syncCommands.type(key);
 			if("hash".equals(type)) {
-				// HashKeyを取得
+				// Retrieve hashkey
 				List<String> fields = syncCommands.hkeys(key);
 				Map<String, String> resultMap = new HashMap<>();
 				for(String field : fields) {
-					// _classを除外
+					// exclude _class
 					if("_class".equals(field)) {
 						continue;
 					}
@@ -49,16 +49,16 @@ public class RedisService {
 				
 				// filter
 				if(queryData.getFilterField() == null) {
-					// フィルタなし
+					// no filter
 				} else {
 					String valueOfFilterField = resultMap.get(queryData.getFilterField());
 					if(valueOfFilterField == null) {
-						// フィルタフィールドに値なし
+						// no filter value
 					} else {
 						if(valueOfFilterField.equals(queryData.getFilterValue())) {
-							// 一致
+							// matched
 						} else {
-							// 不一致
+							// unmatched
 							continue;
 						}
 					}

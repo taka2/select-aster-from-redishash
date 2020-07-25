@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 import select.aster.from.redishash.exception.ApplicationException;
 
 public class QueryParser {
-	String regexp1 = "from (\\p{Alpha}+)";
-	String regexp2 = "from (\\p{Alpha}+) where (\\p{Alnum}+)=(\\p{Graph}+)";
+	String regexp1 = "\\p{Space}*from\\p{Space}*(\\p{Alpha}+)\\p{Space}*";
+	String regexp2 = "\\p{Space}*from\\p{Space}*(\\p{Alpha}+)\\p{Space}*where\\p{Space}*(\\p{Alnum}+)\\p{Space}*=\\p{Space}*(\\p{Graph}+)\\p{Space}*";
 	String[] regexpArray = {regexp1, regexp2};
 
 	List<Pattern> patterns;
@@ -17,7 +17,7 @@ public class QueryParser {
 	public QueryParser() {
 		patterns = new ArrayList<>();
 		for(String regexp : regexpArray) {
-			patterns.add(Pattern.compile(regexp));
+			patterns.add(Pattern.compile(regexp, Pattern.CASE_INSENSITIVE));
 		}
 	}
 	
@@ -27,6 +27,9 @@ public class QueryParser {
 			if(matcher.matches()) {
 				if(matcher.groupCount() == 1) {
 					QueryData result = new QueryData(matcher.group(1), null, null);
+					if("where".equals(result.getHashKey().toLowerCase())) {
+						throw new ApplicationException("Hash key is 'where', it's wrong.");
+					}
 					return result;
 				} else if(matcher.groupCount() == 3) {
 					QueryData result = new QueryData(matcher.group(1), matcher.group(2), matcher.group(3));

@@ -20,6 +20,7 @@ public class ResultPanel extends JPanel {
 	public ResultPanel(MyTabPanel tabPanel) {
 		this.tableModel = new DefaultTableModel();
 		JTable jTable = new JTable(tableModel);
+		jTable.setAutoCreateRowSorter(true);
 
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(jTable), BorderLayout.CENTER);

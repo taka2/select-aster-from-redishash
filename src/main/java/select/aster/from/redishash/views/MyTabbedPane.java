@@ -14,7 +14,7 @@ public class MyTabbedPane extends JTabbedPane {
 		
 		this.mainFrame = mainFrame;
 
-		// TODO ‚Æ‚è‚ ‚¦‚¸1‚Âƒ^ƒu’Ç‰ÁB‚ ‚Æ‚Åƒtƒ@ƒCƒ‹‚©‚ç•œŒ³‚·‚é‚æ‚¤‚É‚·‚éB
+		// TODO ã¨ã‚Šã‚ãˆãš1ã¤ã‚¿ãƒ–è¿½åŠ ã€‚ã‚ã¨ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å¾©å…ƒã™ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
 		MyTabPanel tabPanel = new MyTabPanel(mainFrame);
 		this.addTab("tab1", tabPanel);
 		

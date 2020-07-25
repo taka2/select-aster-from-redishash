@@ -30,17 +30,17 @@ public class RedisService {
 
 		List<RedisHashData> resultList = new ArrayList<>();
 
-		// Hash–¼+*‚Å’T‚·
+		// Hashå+*ã§æ¢ã™
 		List<String> keys = syncCommands.keys(queryData.getHashKey() + "*");
 		for(String key : keys) {
-			// Hash‚Ì‚İ‚ğ’Šo
+			// Hashã®ã¿ã‚’æŠ½å‡º
 			String type = syncCommands.type(key);
 			if("hash".equals(type)) {
-				// HashKey‚ğæ“¾
+				// HashKeyã‚’å–å¾—
 				List<String> fields = syncCommands.hkeys(key);
 				Map<String, String> resultMap = new HashMap<>();
 				for(String field : fields) {
-					// _class‚ğœŠO
+					// _classã‚’é™¤å¤–
 					if("_class".equals(field)) {
 						continue;
 					}
@@ -49,16 +49,16 @@ public class RedisService {
 				
 				// filter
 				if(queryData.getFilterField() == null) {
-					// ƒtƒBƒ‹ƒ^‚È‚µ
+					// ãƒ•ã‚£ãƒ«ã‚¿ãªã—
 				} else {
 					String valueOfFilterField = resultMap.get(queryData.getFilterField());
 					if(valueOfFilterField == null) {
-						// ƒtƒBƒ‹ƒ^ƒtƒB[ƒ‹ƒh‚É’l‚È‚µ
+						// ãƒ•ã‚£ãƒ«ã‚¿ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å€¤ãªã—
 					} else {
 						if(valueOfFilterField.equals(queryData.getFilterValue())) {
-							// ˆê’v
+							// ä¸€è‡´
 						} else {
-							// •sˆê’v
+							// ä¸ä¸€è‡´
 							continue;
 						}
 					}

@@ -22,7 +22,7 @@ public class SearchPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
-					// ƒeƒLƒXƒgƒtƒB[ƒ‹ƒh“à‚ÌEnter‚ÅŒŸõÀs
+					// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å†…ã®Enterã§æ¤œç´¢å®Ÿè¡Œ
 					tabPanel.searchButtonClicked(textQuery.getText());
 				}
 			}

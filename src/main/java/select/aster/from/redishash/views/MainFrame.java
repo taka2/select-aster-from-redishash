@@ -18,21 +18,21 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		super("select * from redishash");
 		
-		// ƒƒWƒbƒN‚Ì‰Šú‰»
+		// ãƒ­ã‚¸ãƒƒã‚¯ã®åˆæœŸåŒ–
 		propertyUtil = new PropertyUtil();
 		redisService = new RedisService(propertyUtil.getRedisConnectionString());
 		
-		// GUI‚Ì\’z
+		// GUIã®æ§‹ç¯‰
 		this.tabbedPane = new MyTabbedPane(this);
 		tabbedPane.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// ƒ^ƒu‚ª¶ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚³‚ê‚½‚çƒ^ƒu‚ğ’Ç‰Á
+				// ã‚¿ãƒ–ãŒå·¦ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‚‰ã‚¿ãƒ–ã‚’è¿½åŠ 
 				if(e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
 					tabbedPane.addTab();
 				}
 				
-				// ‰Eƒ_ƒuƒ‹ƒNƒŠƒbƒN‚³‚ê‚½‚çA‘I‘ğ’†‚Ìƒ^ƒu‚ğíœ
+				// å³ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‚‰ã€é¸æŠä¸­ã®ã‚¿ãƒ–ã‚’å‰Šé™¤
 				if(e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 2) {
 					tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
 				}

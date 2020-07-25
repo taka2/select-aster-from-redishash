@@ -1,4 +1,4 @@
-package select.aster.from.redishash.service;
+package select.aster.from.redishash.redis.service;
 
 import java.util.ArrayList;
 import java.util.List;

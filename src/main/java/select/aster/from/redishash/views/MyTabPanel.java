@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import select.aster.from.redishash.model.RedisHashData;
-import select.aster.from.redishash.service.RedisService;
+import select.aster.from.redishash.redis.model.RedisHashData;
+import select.aster.from.redishash.redis.service.RedisService;
 
 public class MyTabPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

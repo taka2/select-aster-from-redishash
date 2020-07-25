@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import select.aster.from.redishash.model.RedisHashData;
+import select.aster.from.redishash.redis.model.RedisHashData;
 
 public class ResultPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

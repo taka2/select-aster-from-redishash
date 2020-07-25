@@ -1,4 +1,4 @@
-package select.aster.from.redishash.model;
+package select.aster.from.redishash.redis.model;
 
 import java.util.Map;
 

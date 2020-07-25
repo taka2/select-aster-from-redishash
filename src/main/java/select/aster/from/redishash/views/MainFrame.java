@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import select.aster.from.redishash.exception.ApplicationException;
-import select.aster.from.redishash.service.RedisService;
+import select.aster.from.redishash.redis.service.RedisService;
 import select.aster.from.redishash.util.PropertyUtil;
 
 public class MainFrame extends JFrame {

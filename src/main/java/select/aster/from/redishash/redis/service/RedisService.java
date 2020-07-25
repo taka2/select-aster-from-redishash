@@ -1,4 +1,4 @@
-package select.aster.from.redishash.service;
+package select.aster.from.redishash.redis.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-import select.aster.from.redishash.model.RedisHashData;
+import select.aster.from.redishash.redis.model.RedisHashData;
 
 public class RedisService {
 	private RedisClient redisClient;

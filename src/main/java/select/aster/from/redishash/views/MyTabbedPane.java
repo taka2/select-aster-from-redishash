@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
@@ -42,15 +43,28 @@ public class MyTabbedPane extends JTabbedPane {
 				// Right single click
 				if(e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
 					JPopupMenu popupMenu = new JPopupMenu();
-					JMenuItem menuItem = new JMenuItem("delete");
-					menuItem.addActionListener(new ActionListener() {
+					
+					JMenuItem menuItemEditSelectedTabname = new JMenuItem("edit selected tabname");
+					menuItemEditSelectedTabname.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							String oldTabName = tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+							String newTabName = JOptionPane.showInputDialog("New tabname", oldTabName);
+							
+							tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), newTabName);
+						}
+					});
+					
+					JMenuItem menuItemDeleteSelectedTab = new JMenuItem("delete selected tab");
+					menuItemDeleteSelectedTab.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
 						}
 					});
-					
-					popupMenu.add(menuItem);
+										
+					popupMenu.add(menuItemEditSelectedTabname);
+					popupMenu.add(menuItemDeleteSelectedTab);
 					popupMenu.show(tabbedPane, e.getX()+5, e.getY()+5);
 				}
 			}
@@ -76,18 +90,18 @@ public class MyTabbedPane extends JTabbedPane {
 			}
 		});
 		
-		this.setToolTipText("To add tab left double click, to remove tab select tab and right double click");
+		this.setToolTipText("To add tab left double click");
 		
-		addTab(DEFAULT_QUERY);
+		addTab(getNewTabName(), DEFAULT_QUERY);
 	}
 	
 	public void addTab() {
-		addTab(DEFAULT_QUERY);
+		addTab(getNewTabName(), DEFAULT_QUERY);
 	}
 	
-	public void addTab(String query) {
+	public void addTab(String tabName, String query) {
 		MyTabPanel tabPanel = new MyTabPanel(mainFrame, query);
-		this.addTab(getNewTabName(), tabPanel);
+		this.addTab(tabName, tabPanel);
 		this.tabPanels.add(tabPanel);
 	}
 	
@@ -106,10 +120,11 @@ public class MyTabbedPane extends JTabbedPane {
 	
 	void setTabConfigs(ApplicationConfig applicationConfig) {
 		this.removeAll();
+		this.tabPanels = new ArrayList<>();
 
 		List<TabConfig> tabConfigs = applicationConfig.getTabs();
 		for(TabConfig tabConfig : tabConfigs) {
-			addTab(tabConfig.getQuery());
+			addTab(tabConfig.getTabName(), tabConfig.getQuery());
 		}
 	}
 }

@@ -27,9 +27,10 @@ public class MyMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent e) {
 				List<TabConfig> tabConfigs = new ArrayList<>();
 				List<MyTabPanel> tabPanels = mainFrame.getTabbedPane().getTabPanels();
-				for(MyTabPanel tabPanel : tabPanels) {
+				for(int i=0; i<tabPanels.size(); i++) {
 					TabConfig tabConfig = new TabConfig();
-					tabConfig.setQuery(tabPanel.getQuery());
+					tabConfig.setTabName(mainFrame.getTabbedPane().getTitleAt(i));
+					tabConfig.setQuery(tabPanels.get(i).getQuery());
 					tabConfigs.add(tabConfig);
 				}
 				mainFrame.getApplicationConfig().setTabs(tabConfigs);

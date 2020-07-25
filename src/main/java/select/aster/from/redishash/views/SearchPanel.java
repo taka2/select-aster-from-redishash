@@ -2,6 +2,8 @@ package select.aster.from.redishash.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +17,26 @@ public class SearchPanel extends JPanel {
 		JLabel labelQuery = new JLabel("query:");
 		labelQuery.setToolTipText("from [hashkey] where field1=value1");
 		JTextField textQuery = new JTextField(50);
+		textQuery.setText("from ");
+		textQuery.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					// テキストフィールド内のEnterで検索実行
+					tabPanel.searchButtonClicked(textQuery.getText());
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// Do nothing
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// Do nothing
+			}
+		});
 		JButton buttonQuery = new JButton("Query");
 		buttonQuery.addActionListener(new ActionListener() {
 			@Override

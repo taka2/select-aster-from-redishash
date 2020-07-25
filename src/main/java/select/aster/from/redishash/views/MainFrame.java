@@ -1,10 +1,15 @@
 package select.aster.from.redishash.views;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import select.aster.from.redishash.exception.ApplicationException;
@@ -41,6 +46,9 @@ public class MainFrame extends JFrame {
 		redisService = new RedisService(propertyUtil.getRedisConnectionString());
 		
 		// Build GUI
+		JMenuBar menuBar = createMenuBar();
+		this.setJMenuBar(menuBar);
+		
 		this.tabbedPane = new MyTabbedPane(this);
 		tabbedPane.addMouseListener(new MouseListener() {
 			@Override
@@ -87,6 +95,23 @@ public class MainFrame extends JFrame {
 		this.setVisible(true);
 	}
 
+	private JMenuBar createMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("file");
+		JMenuItem menuItemFileExit = new JMenuItem("exit");
+		menuItemFileExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		menuBar.add(menuFile);
+		menuFile.add(menuItemFileExit);
+		
+		return menuBar;
+	}
+	
 	RedisService getRedisService() {
 		return this.redisService;
 	}

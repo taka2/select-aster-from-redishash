@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,6 +15,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import select.aster.from.redishash.exception.ApplicationException;
+import select.aster.from.redishash.model.ApplicationConfig;
+import select.aster.from.redishash.model.TabConfig;
 import select.aster.from.redishash.redis.service.RedisService;
 import select.aster.from.redishash.util.PropertyUtil;
 
@@ -22,6 +26,7 @@ public class MainFrame extends JFrame {
 	private MyTabbedPane tabbedPane;
 	private RedisService redisService;
 	private PropertyUtil propertyUtil;
+	private ApplicationConfig applicationConfig;
 
 	public MainFrame() {
 		super("select * from redishash");
@@ -44,9 +49,10 @@ public class MainFrame extends JFrame {
 		// Initialize service
 		propertyUtil = new PropertyUtil();
 		redisService = new RedisService(propertyUtil.getRedisConnectionString());
+		applicationConfig = new ApplicationConfig();
 		
 		// Build GUI
-		JMenuBar menuBar = createMenuBar();
+		JMenuBar menuBar = createMenuBar(this);
 		this.setJMenuBar(menuBar);
 		
 		this.tabbedPane = new MyTabbedPane(this);
@@ -95,9 +101,32 @@ public class MainFrame extends JFrame {
 		this.setVisible(true);
 	}
 
-	private JMenuBar createMenuBar() {
+	private JMenuBar createMenuBar(MainFrame mainFrame) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu("file");
+		JMenuItem menuItemFileSave = new JMenuItem("save");
+		menuItemFileSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<TabConfig> tabConfigs = new ArrayList<>();
+				List<MyTabPanel> tabPanels = tabbedPane.getTabPanels();
+				for(MyTabPanel tabPanel : tabPanels) {
+					TabConfig tabConfig = new TabConfig();
+					tabConfig.setQuery(tabPanel.getQuery());
+					tabConfigs.add(tabConfig);
+				}
+				applicationConfig.setTabs(tabConfigs);
+				applicationConfig.save();
+			}
+		});
+		JMenuItem menuItemFileLoad = new JMenuItem("load");
+		menuItemFileLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				applicationConfig.load();
+				mainFrame.refreshTabs();
+			}
+		});
 		JMenuItem menuItemFileExit = new JMenuItem("exit");
 		menuItemFileExit.addActionListener(new ActionListener() {
 			@Override
@@ -107,6 +136,8 @@ public class MainFrame extends JFrame {
 		});
 		
 		menuBar.add(menuFile);
+		menuFile.add(menuItemFileSave);
+		menuFile.add(menuItemFileLoad);
 		menuFile.add(menuItemFileExit);
 		
 		return menuBar;
@@ -114,6 +145,10 @@ public class MainFrame extends JFrame {
 	
 	RedisService getRedisService() {
 		return this.redisService;
+	}
+	
+	void refreshTabs() {
+		tabbedPane.setTabConfigs(this.applicationConfig);
 	}
 }
 

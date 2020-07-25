@@ -16,12 +16,12 @@ public class MyTabPanel extends JPanel {
 	
 	private RedisService redisService;
 	
-	public MyTabPanel(MainFrame mainFrame) {
+	public MyTabPanel(MainFrame mainFrame, String query) {
 		super();
 		
 		this.redisService = mainFrame.getRedisService();
 
-		this.searchPanel = new SearchPanel(this);
+		this.searchPanel = new SearchPanel(this, query);
 		this.resultPanel = new ResultPanel(this);
 		
 		this.setLayout(new BorderLayout());
@@ -32,5 +32,9 @@ public class MyTabPanel extends JPanel {
 	public void searchButtonClicked(String query) {
 		List<RedisHashData> redishashDataList = redisService.query(query);
 		resultPanel.updateTableData(redishashDataList);
+	}
+	
+	String getQuery() {
+		return this.searchPanel.getQuery();
 	}
 }

@@ -13,11 +13,13 @@ import javax.swing.JTextField;
 public class SearchPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public SearchPanel(MyTabPanel tabPanel) {
+	private JTextField textQuery;
+	
+	public SearchPanel(MyTabPanel tabPanel, String query) {
 		JLabel labelQuery = new JLabel("query:");
 		labelQuery.setToolTipText("from [hashkey] where field1=value1");
-		JTextField textQuery = new JTextField(50);
-		textQuery.setText("from ");
+		this.textQuery = new JTextField(50);
+		textQuery.setText(query);
 		textQuery.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -48,5 +50,9 @@ public class SearchPanel extends JPanel {
 		this.add(labelQuery);
 		this.add(textQuery);
 		this.add(buttonQuery);
+	}
+	
+	String getQuery() {
+		return this.textQuery.getText();
 	}
 }

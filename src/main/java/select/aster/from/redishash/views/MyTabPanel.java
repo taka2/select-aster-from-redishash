@@ -1,11 +1,11 @@
 package select.aster.from.redishash.views;
 
 import java.awt.BorderLayout;
-import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import select.aster.from.redishash.redis.model.RedisHashData;
+import select.aster.from.redishash.redis.service.QueryResult;
 import select.aster.from.redishash.redis.service.RedisService;
 
 public class MyTabPanel extends JPanel {
@@ -30,8 +30,12 @@ public class MyTabPanel extends JPanel {
 	}
 	
 	public void searchButtonClicked(String query) {
-		List<RedisHashData> redishashDataList = redisService.query(query);
-		resultPanel.updateTableData(redishashDataList);
+		QueryResult queryResult = redisService.query(query);
+		resultPanel.updateTableData(queryResult.getQueryResultList());
+		if(queryResult.isQueryResultCountExceeded()) {
+			JOptionPane.showMessageDialog(this, "Query result count exceeded limit. limit = "
+					+ queryResult.getQueryResultLimitCount() + ", keysCount = " + queryResult.getKeysCount());
+		}
 	}
 	
 	ResultPanel getResultPanel() {

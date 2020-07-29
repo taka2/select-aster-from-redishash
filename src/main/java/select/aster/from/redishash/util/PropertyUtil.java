@@ -6,6 +6,7 @@ public class PropertyUtil {
 	private static final String PROPERTY_FILE_NAME = "/application.properties";
 
 	private static final String KEY_REDIS_CONNECTION_STRING = "redis.connection-string";
+	private static final String KEY_REDIS_MAX_SHOW_LINES = "redis.max-show-lines";
 	
 	private Properties properties;
 
@@ -20,5 +21,9 @@ public class PropertyUtil {
 	
 	public String getRedisConnectionString() {
 		return properties.getProperty(KEY_REDIS_CONNECTION_STRING);
+	}
+	
+	public Integer getMaxShowLines() {
+		return Integer.parseInt(properties.getProperty(KEY_REDIS_MAX_SHOW_LINES));
 	}
 }

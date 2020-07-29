@@ -35,22 +35,42 @@ public class ResultPanel extends JPanel {
 		this.redishashDataList = redishashDataList;
 
 		Vector<Vector<String>> dataVector = new Vector<>();
-		Vector<String> columnIdentifiers = new Vector<>();
+		Vector<String> columnIdentifiers = null;
 
 		boolean firstRowFlag = true;
 		for (RedisHashData data : redishashDataList) {
-			Vector<String> row = new Vector<>();
-			for(Map.Entry<String, String> entry : data.getMap().entrySet()) {
-				if(firstRowFlag) {
-					columnIdentifiers.add(entry.getKey());
-				}
-				row.add(entry.getValue());
+			if(firstRowFlag) {
+				columnIdentifiers = getColumnIdentifiers(data.getMap());
+				firstRowFlag = false;
 			}
-			firstRowFlag = false;
-			dataVector.add(row);
+			dataVector.add(getRowData(data.getMap(), columnIdentifiers));
 		}
 
 		tableModel.setDataVector(dataVector, columnIdentifiers);
+	}
+	
+	private Vector<String> getColumnIdentifiers(Map<String, String> row) {
+		Vector<String> columnIdentifiers = new Vector<>();
+		for(Map.Entry<String, String> entry : row.entrySet()) {
+			columnIdentifiers.add(entry.getKey());
+		}
+		
+		return columnIdentifiers;
+	}
+	
+	private Vector<String> getRowData(Map<String, String> row, Vector<String> columnIdentifiers) {
+		Vector<String> result = new Vector<>();
+		for(String columnIdentifier : columnIdentifiers) {
+			String value = row.get(columnIdentifier);
+			if(value == null) {
+				// add blank if value is nil
+				result.add("");
+			} else {
+				result.add(value);
+			}
+		}
+		
+		return result;
 	}
 	
 	List<RedisHashData> getRedishashDataList() {

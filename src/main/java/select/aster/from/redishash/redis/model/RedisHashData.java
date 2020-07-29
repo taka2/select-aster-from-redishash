@@ -43,22 +43,26 @@ public class RedisHashData {
 		return sb.toString();
 	}
 	
-	public String toCsvString() {
+	public String toCsvString(List<String> columnNames) {
 		Map<String, String> map = getMap();
-		List<String> columnNames = getColumnNames();
 		
 		StringBuilder sb = new StringBuilder();
 		for(String columnName : columnNames) {
 			if(sb.length() != 0) {
 				sb.append(",");
 			}
-			sb.append(map.get(columnName));
+			String value = map.get(columnName);
+			if(value == null || "".equals(value)) {
+				sb.append(" ");
+			} else {
+				sb.append(value);
+			}
 		}
 		
 		return sb.toString();
 	}
 	
-	private List<String> getColumnNames() {
+	public List<String> getColumnNames() {
 		List<String> columnNames = new ArrayList<>();
 		for(Map.Entry<String, String> entry : getMap().entrySet()) {
 			columnNames.add(entry.getKey());

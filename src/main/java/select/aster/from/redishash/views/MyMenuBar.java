@@ -58,9 +58,10 @@ public class MyMenuBar extends JMenuBar {
 				}
 
 				try (PrintWriter pw = new PrintWriter(new FileWriter("export_" + tabName + ".csv"))) {
+					List<String> columnNames = redisHashDataList.get(0).getColumnNames();
 					pw.println(redisHashDataList.get(0).toHeaderCsvString());
 					for(RedisHashData redisHashData : redisHashDataList) {
-						pw.println(redisHashData.toCsvString());
+						pw.println(redisHashData.toCsvString(columnNames));
 					}
 				} catch(IOException ex) {
 					throw new ApplicationException("Cannot export file." + ex.getMessage());

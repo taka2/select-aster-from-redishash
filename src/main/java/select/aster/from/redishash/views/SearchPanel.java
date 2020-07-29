@@ -17,7 +17,7 @@ public class SearchPanel extends JPanel {
 	
 	public SearchPanel(MyTabPanel tabPanel, String query) {
 		JLabel labelQuery = new JLabel("query:");
-		labelQuery.setToolTipText("from [hashkey] where field1=value1");
+		labelQuery.setToolTipText("from [hashkey] [keys pattern]");
 		this.textQuery = new JTextField(50);
 		textQuery.setText(query);
 		textQuery.addKeyListener(new KeyListener() {

@@ -2,24 +2,18 @@ package select.aster.from.redishash.redis.service;
 
 public class QueryData {
 	private String hashKey;
-	private String filterField;
-	private String filterValue;
+	private String keysPattern;
 	
-	public QueryData(String hashKey, String filterField, String filterValue) {
+	public QueryData(String hashKey, String keysPattern) {
 		this.hashKey = hashKey;
-		this.filterField = filterField;
-		this.filterValue = filterValue;
+		this.keysPattern = keysPattern;
 	}
 
 	public String getHashKey() {
 		return hashKey;
 	}
 
-	public String getFilterField() {
-		return filterField;
-	}
-
-	public String getFilterValue() {
-		return filterValue;
+	public String getKeysPattern() {
+		return keysPattern;
 	}
 }

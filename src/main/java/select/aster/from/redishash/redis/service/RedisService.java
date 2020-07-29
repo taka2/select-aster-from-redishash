@@ -30,8 +30,8 @@ public class RedisService {
 
 		List<RedisHashData> resultList = new ArrayList<>();
 
-		// Search redis keys by "hashname+*"
-		List<String> keys = syncCommands.keys(queryData.getHashKey() + "*");
+		// Search redis keys by "hashkey" + "keysPattern"
+		List<String> keys = syncCommands.keys(queryData.getHashKey() + queryData.getKeysPattern());
 		for(String key : keys) {
 			// Extract hash only
 			String type = syncCommands.type(key);
@@ -47,23 +47,6 @@ public class RedisService {
 					resultMap.put(field, syncCommands.hget(key, field));
 				}
 				
-				// filter
-				if(queryData.getFilterField() == null) {
-					// no filter
-				} else {
-					String valueOfFilterField = resultMap.get(queryData.getFilterField());
-					if(valueOfFilterField == null) {
-						// no filter value
-					} else {
-						if(valueOfFilterField.equals(queryData.getFilterValue())) {
-							// matched
-						} else {
-							// unmatched
-							continue;
-						}
-					}
-				}
-
 				resultList.add(new RedisHashData(type, resultMap));
 			}
 		}

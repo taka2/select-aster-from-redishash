@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -15,6 +16,7 @@ import javax.swing.JMenuItem;
 import select.aster.from.redishash.exception.ApplicationException;
 import select.aster.from.redishash.model.TabConfig;
 import select.aster.from.redishash.redis.model.RedisHashData;
+import select.aster.from.redishash.redis.service.QueryResult;
 
 public class MyMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
@@ -51,15 +53,16 @@ public class MyMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent e) {
 				MyTabPanel tabPanel = mainFrame.getTabbedPane().getTabPanels().get(mainFrame.getTabbedPane().getSelectedIndex());
 				String tabName = mainFrame.getTabbedPane().getTitleAt(mainFrame.getTabbedPane().getSelectedIndex());
-				List<RedisHashData> redisHashDataList = tabPanel.getResultPanel().getRedishashDataList();
-				
-				if(redisHashDataList.size() == 0) {
+				QueryResult queryResult = tabPanel.getResultPanel().getQueryResult();
+
+				if(queryResult == null) {
 					throw new ApplicationException("No data.");
 				}
 
+				List<RedisHashData> redisHashDataList = queryResult.getQueryResultList();
 				try (PrintWriter pw = new PrintWriter(new FileWriter("export_" + tabName + ".csv"))) {
-					List<String> columnNames = redisHashDataList.get(0).getColumnNames();
-					pw.println(redisHashDataList.get(0).toHeaderCsvString());
+					List<String> columnNames = Arrays.asList(queryResult.getSelectFields());
+					pw.println(String.join(",", columnNames));
 					for(RedisHashData redisHashData : redisHashDataList) {
 						pw.println(redisHashData.toCsvString(columnNames));
 					}

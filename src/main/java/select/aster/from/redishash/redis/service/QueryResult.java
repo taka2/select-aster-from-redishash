@@ -5,18 +5,24 @@ import java.util.List;
 import select.aster.from.redishash.redis.model.RedisHashData;
 
 public class QueryResult {
+	private String[] selectFields;
 	private List<RedisHashData> queryResultList;
 	private boolean queryResultCountExceeded;
 	private int queryResultLimitCount;
 	private int keysCount;
 	
-	public QueryResult(List<RedisHashData> queryResultList, boolean queryResultCountExceeded, int queryResultLimitCount, int keysCount) {
+	public QueryResult(String[] selectFields, List<RedisHashData> queryResultList, boolean queryResultCountExceeded, int queryResultLimitCount, int keysCount) {
+		this.selectFields = selectFields;
 		this.queryResultList = queryResultList;
 		this.queryResultCountExceeded = queryResultCountExceeded;
 		this.queryResultLimitCount = queryResultLimitCount;
 		this.keysCount = keysCount;
 	}
 
+	public String[] getSelectFields() {
+		return selectFields;
+	}
+	
 	public List<RedisHashData> getQueryResultList() {
 		return queryResultList;
 	}
@@ -29,16 +35,8 @@ public class QueryResult {
 		return queryResultLimitCount;
 	}
 
-	public void setQueryResultLimitCount(int queryResultLimitCount) {
-		this.queryResultLimitCount = queryResultLimitCount;
-	}
-
 	public int getKeysCount() {
 		return keysCount;
-	}
-
-	public void setKeysCount(int keysCount) {
-		this.keysCount = keysCount;
 	}
 }
 

@@ -2,8 +2,10 @@ package select.aster.from.redishash.redis.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -33,6 +35,7 @@ public class RedisService {
 
 		List<RedisHashData> queryResultList = new ArrayList<>();
 		boolean queryResultCountExceeded = false;
+		Set<String> hashFields = new HashSet<>();
 
 		int numLines = 0;
 		// Search redis keys by "hashname+*"
@@ -50,6 +53,7 @@ public class RedisService {
 						continue;
 					}
 					resultMap.put(field, syncCommands.hget(key, field));
+					hashFields.add(field);
 				}
 				
 				// filter
@@ -78,7 +82,10 @@ public class RedisService {
 			}
 		}
 		
-		return new QueryResult(queryResultList, queryResultCountExceeded, propertyUtil.getMaxShowLines(), keys.size());
+		if("*".equals(queryData.getSelectFields()[0])) {
+			queryData.setSelectFields(hashFields.toArray(new String[hashFields.size()]));
+		}
+		return new QueryResult(queryData.getSelectFields(), queryResultList, queryResultCountExceeded, propertyUtil.getMaxShowLines(), keys.size());
 	}
 	
 	public void close() {

@@ -18,7 +18,7 @@ import select.aster.from.redishash.model.TabConfig;
 public class MyTabbedPane extends JTabbedPane {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DEFAULT_QUERY = "from ";
+	private static final String DEFAULT_QUERY = "select * from ";
 	
 	private MainFrame mainFrame;
 	

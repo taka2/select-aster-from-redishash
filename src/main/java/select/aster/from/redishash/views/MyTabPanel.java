@@ -31,7 +31,7 @@ public class MyTabPanel extends JPanel {
 	
 	public void searchButtonClicked(String query) {
 		QueryResult queryResult = redisService.query(query);
-		resultPanel.updateTableData(queryResult.getQueryResultList());
+		resultPanel.updateTableData(queryResult);
 		if(queryResult.isQueryResultCountExceeded()) {
 			JOptionPane.showMessageDialog(this, "Query result count exceeded limit. limit = "
 					+ queryResult.getQueryResultLimitCount() + ", keysCount = " + queryResult.getKeysCount());

@@ -1,8 +1,6 @@
 package select.aster.from.redishash.views;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -12,17 +10,16 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import select.aster.from.redishash.redis.model.RedisHashData;
+import select.aster.from.redishash.redis.service.QueryResult;
 
 public class ResultPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private DefaultTableModel tableModel;
 	
-	List<RedisHashData> redishashDataList;
+	QueryResult queryResult;
 
 	public ResultPanel(MyTabPanel tabPanel) {
-		redishashDataList = new ArrayList<>();
-
 		this.tableModel = new DefaultTableModel();
 		JTable jTable = new JTable(tableModel);
 		jTable.setAutoCreateRowSorter(true);
@@ -31,31 +28,20 @@ public class ResultPanel extends JPanel {
 		this.add(new JScrollPane(jTable), BorderLayout.CENTER);
 	}
 
-	public void updateTableData(List<RedisHashData> redishashDataList) {
-		this.redishashDataList = redishashDataList;
+	public void updateTableData(QueryResult queryResult) {
+		this.queryResult = queryResult;
 
 		Vector<Vector<String>> dataVector = new Vector<>();
-		Vector<String> columnIdentifiers = null;
+		Vector<String> columnIdentifiers = new Vector<>();
+		for(String selectField : queryResult.getSelectFields()) {
+			columnIdentifiers.add(selectField);
+		}
 
-		boolean firstRowFlag = true;
-		for (RedisHashData data : redishashDataList) {
-			if(firstRowFlag) {
-				columnIdentifiers = getColumnIdentifiers(data.getMap());
-				firstRowFlag = false;
-			}
+		for (RedisHashData data : queryResult.getQueryResultList()) {
 			dataVector.add(getRowData(data.getMap(), columnIdentifiers));
 		}
 
 		tableModel.setDataVector(dataVector, columnIdentifiers);
-	}
-	
-	private Vector<String> getColumnIdentifiers(Map<String, String> row) {
-		Vector<String> columnIdentifiers = new Vector<>();
-		for(Map.Entry<String, String> entry : row.entrySet()) {
-			columnIdentifiers.add(entry.getKey());
-		}
-		
-		return columnIdentifiers;
 	}
 	
 	private Vector<String> getRowData(Map<String, String> row, Vector<String> columnIdentifiers) {
@@ -73,7 +59,7 @@ public class ResultPanel extends JPanel {
 		return result;
 	}
 	
-	List<RedisHashData> getRedishashDataList() {
-		return this.redishashDataList;
+	QueryResult getQueryResult() {
+		return this.queryResult;
 	}
 }

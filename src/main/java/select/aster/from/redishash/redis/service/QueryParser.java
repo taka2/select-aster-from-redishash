@@ -9,7 +9,7 @@ import select.aster.from.redishash.exception.ApplicationException;
 
 public class QueryParser {
 	String regexp1 = "\\p{Space}*from\\p{Space}*(\\p{Alpha}+)\\p{Space}*";
-	String regexp2 = "\\p{Space}*from\\p{Space}*(\\p{Alpha}+)\\p{Space}*(\\p{Graph}+)\\p{Space}*";
+	String regexp2 = "\\p{Space}*from\\p{Space}*(\\p{Alpha}+)\\p{Space}*where\\p{Space}*(\\p{Alnum}+)\\p{Space}*=\\p{Space}*(\\p{Graph}+)\\p{Space}*";
 	String[] regexpArray = {regexp1, regexp2};
 
 	List<Pattern> patterns;
@@ -26,10 +26,13 @@ public class QueryParser {
 			Matcher matcher = pattern.matcher(query);
 			if(matcher.matches()) {
 				if(matcher.groupCount() == 1) {
-					QueryData result = new QueryData(matcher.group(1), "*");
+					QueryData result = new QueryData(matcher.group(1), null, null);
+					if("where".equals(result.getHashKey().toLowerCase())) {
+						throw new ApplicationException("Hash key is 'where', it's wrong.");
+					}
 					return result;
-				} else if(matcher.groupCount() == 2) {
-					QueryData result = new QueryData(matcher.group(1), matcher.group(2));
+				} else if(matcher.groupCount() == 3) {
+					QueryData result = new QueryData(matcher.group(1), matcher.group(2), matcher.group(3));
 					return result;
 				}
 			}
